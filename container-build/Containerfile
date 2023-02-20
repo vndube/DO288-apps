@@ -1,2 +1,23 @@
 # Use the httpd-parent image as base
-FROM quay.io/redhattraining/httpd-parent
+#FROM quay.io/redhattraining/httpd-parent
+FROM registry.access.redhat.com/rhscl/httpd-24-rhel7:latest
+
+# DocumentRoot for Apache
+ENV DOCROOT=/var/www/html
+
+LABEL io.k8.descriptio="A basic Apache HTTP server child image, use ONBUILD src" \
+      io.k8.display-name="Basic Apache Server" \
+      io.openshift.expose-service="8080:http" \
+      io.openshift.tags="apache, http"
+
+RUN sed -i "s/Listen 80/Listen 8080/g" /etc/httpd/conf/httpd.conf && \
+    sed -i "s/#ServerName www.example.com:80/ServerName 0.0.0.0:8080/g" /etc/httpd/conf/httpd.conf
+#RUN chgrp -R 0 /var/log/httpd /var/run/httpd && \
+#    chmod -R g=u /var/log/httpd /var/run/httpd
+
+
+ONBUILD COPY src/ ${DOCROOT}/
+COPY src/ ${DOCROOT}/
+
+EXPOSE 8080
+USER do288-sa
