@@ -5,7 +5,7 @@ FROM registry.access.redhat.com/rhscl/httpd-24-rhel7:latest
 # DocumentRoot for Apache
 ENV DOCROOT=/var/www/html
 
-LABEL io.k8.descriptio="A basic Apache HTTP server child image, use ONBUILD src" \
+LABEL io.k8.description="A basic Apache HTTP server child image, use ONBUILD src" \
       io.k8.display-name="Basic Apache Server" \
       io.openshift.expose-service="8080:http" \
       io.openshift.tags="apache, http"
